@@ -17,19 +17,19 @@ public class RightAscension {
         return sec;
     }
 
-    private void set_hours(int hrs) {
+    public void set_hours(int hrs) throws IllegalArgumentException {
         if (hrs < 0 || hrs > 24)
             throw new IllegalArgumentException("hrs out of range");
         this.hrs = hrs;
     }
 
-    private void set_min(int min) {
+    public void set_min(int min) throws IllegalArgumentException {
         if (min > 60 || min < 0)
             throw new IllegalArgumentException("min out of range");
         this.min = min;
     }
 
-    private void set_sec(int sec) {
+    public void set_sec(int sec) throws IllegalArgumentException {
         if (sec > 60.0 || sec < 0.0)
             throw new IllegalArgumentException("sec out of range");
         this.sec = sec;
