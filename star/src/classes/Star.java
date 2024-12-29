@@ -1,6 +1,5 @@
 package classes;
 import java.util.regex.*;
-import classes.*;
 
 public class Star {
     private String name;
@@ -65,7 +64,7 @@ public class Star {
         return absoluteMagnitude;
     }
 
-    public void setAbsoluteMagnitude(float absoluteMagnitude) {
+    public void setAbsoluteMagnitude() {
         this.absoluteMagnitude = (float) (getApparentMagnitude() - (5 * Math.log10(getLightYears() * 3.26)));
     }
 
@@ -99,8 +98,13 @@ public class Star {
         return hemisphere;
     }
 
-    public void setHemisphere(String hemisphere) {
-        this.hemisphere = hemisphere;
+    public void setHemisphere() {
+        if (this.declination.get_deg() > 0)
+            this.hemisphere = "PN";
+        else if (this.declination.get_deg() < 0)
+            this.hemisphere = "PD";
+        else
+            throw new IllegalArgumentException("Incorrect hemisphere");
     }
 
     public float getTemperature() {
@@ -108,7 +112,7 @@ public class Star {
     }
 
     public void setTemperature(float temperature) throws IllegalArgumentException {
-        if (temperature <= 2000)
+        if (temperature >= 2000)
             this.temperature = temperature;
         else
             throw new IllegalArgumentException("Incorrect temperature");
@@ -124,5 +128,24 @@ public class Star {
         else
             throw new IllegalArgumentException("Incorrect mass");
     }
-
+    public Star(String name, String catName, Declination declination, RightAscension rightAscension, float apparentMagnitude,
+                float lightYears, String constellation, float temperature, float mass) throws IllegalArgumentException
+    {
+        setName(name);
+        setCatName(catName);
+        setDeclination(declination);
+        setRightAscension(rightAscension);
+        setApparentMagnitude(apparentMagnitude);
+        setLightYears(lightYears);
+        setConstellation(constellation);
+        setTemperature(temperature);
+        setMass(mass);
+        setHemisphere();
+        setAbsoluteMagnitude();
+    }
+    public void show()
+    {
+        System.out.print("Name: " + getName() + "\nCatName: " + getCatName() + "\nDeclination: " + getDeclination().get_deg() + "\nRightAscension: " + getRightAscension().get_hours() + "\nApparentMagnitude: " + getApparentMagnitude()
+        + "\nAbsoluteMagnitude: " + getAbsoluteMagnitude() + "\nLightYears: " + getLightYears() + "\nConstellation: " + getConstellation() + "\nTemperature: " + getTemperature() + "\nMass: " + getMass() + "\nHemisphere: " + getHemisphere());
+    }
 }
