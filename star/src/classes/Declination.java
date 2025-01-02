@@ -1,6 +1,8 @@
 package classes;
 
-public class Declination {
+import java.io.Serializable;
+
+public class Declination implements Serializable {
     private int deg;
     private int min;
     private float sec;

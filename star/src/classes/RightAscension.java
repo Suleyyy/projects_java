@@ -1,6 +1,8 @@
 package classes;
 
-public class RightAscension {
+import java.io.Serializable;
+
+public class RightAscension implements Serializable {
     private int hrs;
     private int min;
     private int sec;

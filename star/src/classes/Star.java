@@ -1,7 +1,11 @@
 package classes;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.*;
 
-public class Star {
+public class Star implements Serializable {
     private String name;
     private String catName;
     private Declination declination;
@@ -13,6 +17,7 @@ public class Star {
     private String hemisphere;
     private float temperature;
     private float mass;
+    private final GreekLetters[] greekLetters = GreekLetters.values();
 
     public String getName() {
         return name;
@@ -29,8 +34,33 @@ public class Star {
         return catName;
     }
 
-    public void setCatName(String catName) {
-        this.catName = catName;
+    public void setCatName() {
+        Map<String, Integer> counter = new HashMap<>();
+        File[] files = new File("src\\Stars\\").listFiles();
+        if(files != null) {
+            for (File file : files) {
+                Star star = StarDeserializer(file.getName());
+                if(!counter.containsKey(star.getConstellation()))
+                {
+                    counter.put(star.getConstellation(), 0);
+                }
+                else {
+                    counter.merge(star.getConstellation(), 1, Integer::sum);
+                }
+                star.catName = greekLetters[counter.get(star.getConstellation())].toString() + " " + this.constellation;
+                Star.StarSerializer(star);
+            }
+            if (counter.containsKey(this.getConstellation())) {
+                this.catName = greekLetters[counter.get(this.getConstellation()) + 1].toString() + " " + this.constellation;
+            }
+            else
+                this.catName = greekLetters[0].toString() + " " + this.constellation;
+            Star.StarSerializer(this);
+        }
+        else {
+            this.catName = greekLetters[0].toString() + " " + this.constellation;
+            Star.StarSerializer(this);
+        }
     }
 
     public Declination getDeclination() {
@@ -128,11 +158,10 @@ public class Star {
         else
             throw new IllegalArgumentException("Incorrect mass");
     }
-    public Star(String name, String catName, Declination declination, RightAscension rightAscension, float apparentMagnitude,
+    public Star(String name, Declination declination, RightAscension rightAscension, float apparentMagnitude,
                 float lightYears, String constellation, float temperature, float mass) throws IllegalArgumentException
     {
         setName(name);
-        setCatName(catName);
         setDeclination(declination);
         setRightAscension(rightAscension);
         setApparentMagnitude(apparentMagnitude);
@@ -142,10 +171,130 @@ public class Star {
         setMass(mass);
         setHemisphere();
         setAbsoluteMagnitude();
+        setCatName();
     }
     public void show()
     {
-        System.out.print("Name: " + getName() + "\nCatName: " + getCatName() + "\nDeclination: " + getDeclination().get_deg() + "\nRightAscension: " + getRightAscension().get_hours() + "\nApparentMagnitude: " + getApparentMagnitude()
-        + "\nAbsoluteMagnitude: " + getAbsoluteMagnitude() + "\nLightYears: " + getLightYears() + "\nConstellation: " + getConstellation() + "\nTemperature: " + getTemperature() + "\nMass: " + getMass() + "\nHemisphere: " + getHemisphere());
+        System.out.println("------------------");
+        System.out.print("Name: " + getName() + "\nCatName: " + getCatName() + "\nDeclination: " + getDeclination().get_deg() + "\nRightAscension: " +
+                        getRightAscension().get_hours() + "\nApparentMagnitude: " + getApparentMagnitude()
+                        + "\nAbsoluteMagnitude: " + getAbsoluteMagnitude() + "\nLightYears: " + getLightYears() +
+                        "\nConstellation: " + getConstellation() + "\nTemperature: " + getTemperature() +
+                        "\nMass: " + getMass() + "\nHemisphere: " + getHemisphere() + "\n");
+        System.out.println("------------------");
+    }
+
+    public static void StarSerializer(Star star){
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src\\Stars\\" + star.getName() + ".obj"));
+            oos.writeObject(star);
+            oos.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static Star StarDeserializer(String starName){
+        try
+        {
+            if(starName.endsWith(".obj")) {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src\\Stars\\" + starName));
+                Star star = (Star) ois.readObject();
+                ois.close();
+                return star;
+            }
+            else {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src\\Stars\\" + starName + ".obj"));
+                Star star = (Star) ois.readObject();
+                ois.close();
+                return star;
+            }
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static void ShowAllStars(){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            star.show();
+        }
+    }
+    public static void DeleteStar(String catName) {
+        File[] files = new File("src\\Stars\\").listFiles();
+        try{
+            boolean isDelete = false;
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if (catName.equals(star.getCatName())) {
+                Files.delete(file.toPath());
+                isDelete = true;
+                continue;
+            }
+            if(isDelete) {
+                star.setCatName();
+                break;
+            }
+        }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void ShowStarsFromConstellation(String coName){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if(coName.equals(star.getConstellation())) {
+                star.show();
+            }
+        }
+    }
+    public static void ShowStarsParsecFromEarth(float distance){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if(star.getLightYears() / 3.26 == distance) {
+                star.show();
+            }
+        }
+    }
+    public static void ShowByTemp(float num, float num2){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if(star.getTemperature() > num && star.getTemperature() < num2) {
+                star.show();
+            }
+        }
+    }
+    public static void ShowAbsoluteMagnitude(float num, float num2){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if(star.getAbsoluteMagnitude() > num && star.getTemperature() < num2) {
+                star.show();
+            }
+        }
+    }
+    public static void ShowByHemisphere(String hem){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if(star.getHemisphere().equals(hem)) {
+                star.show();
+            }
+        }
+    }
+    public static void ShowPotSupernova(){
+        File[] files = new File("src\\Stars\\").listFiles();
+        for (File file : files) {
+            Star star = StarDeserializer(file.getName());
+            if(star.getMass() > 1.44) {
+                star.show();
+            }
+        }
     }
 }
