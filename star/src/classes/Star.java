@@ -1,6 +1,8 @@
 package classes;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.*;
@@ -38,8 +40,12 @@ public class Star implements Serializable {
         Map<String, Integer> counter = new HashMap<>();
         File[] files = new File("src\\Stars\\").listFiles();
         if(files != null) {
+            Arrays.sort(files, Comparator.comparingLong(File::lastModified)); //sorts files by last modification
             for (File file : files) {
                 Star star = StarDeserializer(file.getName());
+                if(star.getName().equals(this.name)) {
+                    continue;
+                }
                 if(!counter.containsKey(star.getConstellation()))
                 {
                     counter.put(star.getConstellation(), 0);
@@ -223,28 +229,25 @@ public class Star implements Serializable {
         }
     }
     public static void DeleteStar(String catName) {
-        File[] files = new File("src\\Stars\\").listFiles();
-        try{
-            boolean isDelete = false;
-        for (File file : files) {
-            Star star = StarDeserializer(file.getName());
+        try
+        {
+            File[] files = new File("src\\Stars\\").listFiles();
+            Arrays.sort(files, Comparator.comparingLong(File::lastModified));
+        for (int i = 0; i < files.length; i++) {
+            Star star = StarDeserializer(files[i].getName());
             if (catName.equals(star.getCatName())) {
-                Files.delete(file.toPath());
-                isDelete = true;
-                continue;
+                Files.delete(files[i].toPath());
             }
-            if(isDelete) {
+            if(i == files.length - 1)
                 star.setCatName();
-                break;
-            }
         }
-
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
     public static void ShowStarsFromConstellation(String coName){
         File[] files = new File("src\\Stars\\").listFiles();
+        Arrays.sort(files, Comparator.comparingLong(File::lastModified));
         for (File file : files) {
             Star star = StarDeserializer(file.getName());
             if(coName.equals(star.getConstellation())) {
