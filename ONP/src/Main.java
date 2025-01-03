@@ -44,15 +44,38 @@ public class Main {
 
     public static double Parser(String expression)
     {
-        System.out.println("ONP: " + ToONP(expression));
-        return 1.23;
+        String ONP = ToONP(expression);
+        System.out.println("ONP: " + ONP);
+        Stack<String> stack = new Stack<>();
+        for (int i = 0; i < ONP.length(); i++) {
+            char c = ONP.charAt(i);
+            if ((int) c > 47 && (int) c < 58) {
+                stack.push(Character.toString(c));
+            } else {
+                float a = Float.parseFloat(stack.pop());
+                float b = Float.parseFloat(stack.pop());
+                float result = 0;
+
+                if (c == '+')
+                    result = b + a;
+                else if (c == '-')
+                    result = b - a;
+                else if (c == '*')
+                    result = b * a;
+                else if (c == '/')
+                    result = b / a;
+
+                stack.push(Float.toString(result));
+            }
+        }
+
+        return Float.parseFloat(stack.pop());
     }
 
 
     public static void main(String[] args) {
         String expression = "(1+2)*3/4-5";
         System.out.println("Expression: " + expression);
-        System.out.println(Parser(expression));
-
+        System.out.println("Result: " + Parser(expression));
     }
 }
