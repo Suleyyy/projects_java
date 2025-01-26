@@ -7,6 +7,15 @@
     <list default="true" id="9c6634b0-4570-4e14-860d-eeeecf1d66df" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/Statki3D.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ships/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../star/src/classes/Star.java" beforeDir="false" afterPath="$PROJECT_DIR$/../star/src/classes/Star.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,21 +33,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -57,7 +66,10 @@
       <updated>1735294850238</updated>
       <workItem from="1735294851273" duration="2000" />
       <workItem from="1735854391486" duration="680000" />
-      <workItem from="1735904999163" duration="7397000" />
+      <workItem from="1735904999163" duration="7439000" />
+      <workItem from="1736356939984" duration="287000" />
+      <workItem from="1736357730804" duration="36000" />
+      <workItem from="1737892302411" duration="1393000" />
     </task>
     <servers />
   </component>

@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class Main {
 
-    public static String ToONP(String expression) {
+    public static String ToONP(String expression) { // converts a regular expression into ONP notation
         Stack<Character> stack = new Stack<>();
         StringBuilder output = new StringBuilder();
         Map<Character,Integer> priority = new HashMap<>();
@@ -42,38 +42,42 @@ public class Main {
         return output.toString();
     }
 
-    public static double Parser(String expression)
+    public static double Parser(String expression) throws Exception // returns result of expression in ONP notation
     {
         String ONP = ToONP(expression);
         System.out.println("ONP: " + ONP);
-        Stack<String> stack = new Stack<>();
-        for (int i = 0; i < ONP.length(); i++) {
-            char c = ONP.charAt(i);
-            if ((int) c > 47 && (int) c < 58) {
-                stack.push(Character.toString(c));
-            } else {
-                float a = Float.parseFloat(stack.pop());
-                float b = Float.parseFloat(stack.pop());
-                float result = 0;
+        try {
+            Stack<String> stack = new Stack<>();
+            for (int i = 0; i < ONP.length(); i++) {
+                char c = ONP.charAt(i);
+                if ((int) c > 47 && (int) c < 58) {
+                    stack.push(Character.toString(c));
+                } else {
+                    float a = Float.parseFloat(stack.pop());
+                    float b = Float.parseFloat(stack.pop());
+                    float result = 0;
 
-                if (c == '+')
-                    result = b + a;
-                else if (c == '-')
-                    result = b - a;
-                else if (c == '*')
-                    result = b * a;
-                else if (c == '/')
-                    result = b / a;
+                    if (c == '+')
+                        result = b + a;
+                    else if (c == '-')
+                        result = b - a;
+                    else if (c == '*')
+                        result = b * a;
+                    else if (c == '/')
+                        result = b / a;
 
-                stack.push(Float.toString(result));
+                    stack.push(Float.toString(result));
+                }
             }
-        }
 
-        return Float.parseFloat(stack.pop());
+            return Float.parseFloat(stack.pop());
+        }
+        catch (Exception e) {
+            throw new Exception("Error parsing expression: " + e.getMessage());
+        }
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         String expression = "(1+2)*3/4-5";
         System.out.println("Expression: " + expression);
         System.out.println("Result: " + Parser(expression));

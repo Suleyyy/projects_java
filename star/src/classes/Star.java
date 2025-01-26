@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.*;
 
-public class Star implements Serializable {
+public class Star implements Serializable { //fields
     private String name;
     private String catName;
     private Declination declination;
@@ -21,12 +21,14 @@ public class Star implements Serializable {
     private float mass;
     private final GreekLetters[] greekLetters = GreekLetters.values();
 
+    //from here to line 168 getters and setters
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) throws IllegalArgumentException {
-        if (Pattern.matches("^[A-Z]{3}[0-9]{4}$", name))
+        if (Pattern.matches("^[A-Z]{3}[0-9]{4}$", name)) //using regex for proper name
             this.name = name;
         else
             throw new IllegalArgumentException("Incorrect name");
@@ -164,6 +166,9 @@ public class Star implements Serializable {
         else
             throw new IllegalArgumentException("Incorrect mass");
     }
+
+    //constructor
+
     public Star(String name, Declination declination, RightAscension rightAscension, float apparentMagnitude,
                 float lightYears, String constellation, float temperature, float mass) throws IllegalArgumentException
     {
@@ -179,7 +184,7 @@ public class Star implements Serializable {
         setAbsoluteMagnitude();
         setCatName();
     }
-    public void show()
+    public void show() //method shows every value in object
     {
         System.out.println("------------------");
         System.out.print("Name: " + getName() + "\nCatName: " + getCatName() + "\nDeclination: " + getDeclination().get_deg() + "\nRightAscension: " +
@@ -190,7 +195,7 @@ public class Star implements Serializable {
         System.out.println("------------------");
     }
 
-    public static void StarSerializer(Star star){
+    public static void StarSerializer(Star star){ //serialize to obj file
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src\\Stars\\" + star.getName() + ".obj"));
             oos.writeObject(star);
@@ -200,7 +205,7 @@ public class Star implements Serializable {
             e.printStackTrace();
         }
     }
-    public static Star StarDeserializer(String starName){
+    public static Star StarDeserializer(String starName){ //deserialize file to class Star object
         try
         {
             if(starName.endsWith(".obj")) {
@@ -221,14 +226,14 @@ public class Star implements Serializable {
             return null;
         }
     }
-    public static void ShowAllStars(){
+    public static void ShowAllStars(){ //show all saved stars
         File[] files = new File("src\\Stars\\").listFiles();
         for (File file : files) {
             Star star = StarDeserializer(file.getName());
             star.show();
         }
     }
-    public static void DeleteStar(String catName) {
+    public static void DeleteStar(String catName) { // deletes star from database and sets new catalogue names for others
         try
         {
             File[] files = new File("src\\Stars\\").listFiles();
